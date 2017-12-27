@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<title>Login</title>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<!-- Favicon Icon -->
+	<link rel="shortcut icon" th:href="@{/images/favicon.png}" type="image/png"/>
+	<link rel="icon" th:href="@{/images/favicon.png}" type="image/png"/>
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css"/>
+	<link th:href="@{/css/icons/icomoon/styles.css}" rel="stylesheet" type="text/css"/>
+	<link th:href="@{/css/minified/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+	<link th:href="@{/css/minified/core.min.css}" rel="stylesheet" type="text/css"/>
+	<link th:href="@{/css/minified/components.min.css}" rel="stylesheet" type="text/css"/>
+	<link th:href="@{/css/minified/colors.min.css}" rel="stylesheet" type="text/css"/>
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" th:src="@{/js/plugins/loaders/pace.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/core/libraries/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/core/libraries/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/plugins/loaders/blockui.min.js}"></script>
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" th:src="@{/js/plugins/notifications/sweet_alert.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/plugins/forms/styling/uniform.min.js}"></script>
+
+
+	<script type="text/javascript" th:src="@{/js/core/app.js}"></script>
+	<script type="text/javascript" th:src="@{/js/pages/login.js}"></script>
+	<!-- /theme JS files -->
+</head>
+
+<body class="bg-slate-800">
+
+<!-- Page container -->
+<div class="page-container login-container">
+
+	<!-- Page content -->
+	<div class="page-content">
+
+		<!-- Main content -->
+		<div class="content-wrapper">
+
+			<div th:if="${param.error}">
+				<script th:inline="javascript">
+                    swal({title: "Error!", text: "Error, Invalid username or password!!", type: "error", timer: 3000, confirmButtonColor: "#43ABDB"});
+				</script>
+			</div>
+
+			<div th:if="${reset eq 'success'}">
+				<script th:inline="javascript">
+                    swal({title: "Success!", text: "You password has been changed successfully!", type: "success", timer: 4000, confirmButtonColor: "#43ABDB"});
+				</script>
+			</div>
+
+			<!-- Advanced login -->
+			<form th:action="@{/account/appLogin}" method="post">
+				<div class="panel panel-body login-form">
+					<div class="text-center">
+						<div class="icon-object border-warning-400 text-warning-400"><i class="icon-people"></i></div>
+						<h5 class="content-group-lg">Login to your account <small class="display-block">Enter your credentials</small></h5>
+					</div>
+
+					<div class="form-group has-feedback has-feedback-left">
+						<input type="text" class="form-control" placeholder="Username" name="username"/>
+						<div class="form-control-feedback">
+							<i class="icon-user text-muted"></i>
+						</div>
+					</div>
+
+					<div class="form-group has-feedback has-feedback-left">
+						<input type="password" class="form-control" placeholder="Password" name="password"/>
+						<div class="form-control-feedback">
+							<i class="icon-lock2 text-muted"></i>
+						</div>
+					</div>
+
+					<div class="form-group login-options">
+						<div class="row">
+							<div class="col-sm-6">
+								<label class="checkbox-inline">
+									<input type="checkbox" class="styled" checked="checked" name="remember-me-param"/>
+									Remember
+								</label>
+							</div>
+
+							<div class="col-sm-6 text-right">
+								<a th:href="@{/account/recovery}">Forgot password?</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn bg-blue btn-block">Login <i class="icon-circle-right2 position-right"></i></button>
+					</div>
+
+
+
+					<div class="content-divider text-muted form-group"><span>Don't have an account?</span></div>
+					<a th:href="@{/account/register}" class="btn bg-slate btn-block content-group">Register</a>
+					<span class="help-block text-center no-margin">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
+				</div>
+			</form>
+			<div class="panel panel-body login-form">
+				<div class="content-divider text-muted form-group"><span>or sign in with</span></div>
+
+				<ul class="list-inline form-group list-inline-condensed text-center">
+					<form th:each="idp : ${idps}" th:action="${idpDiscoReturnURL}" method="get">
+						<input type="radio" th:name="${idpDiscoReturnParam}" th:id="'idp_' + ${idp}" th:value="${idp}" hidden="hidden" th:checked="checked" />
+						<button type="submit" class="btn border-indigo text-indigo btn-flat btn-icon btn-rounded">
+							<i class="icon-facebook"></i>
+						</button>
+					</form>
+				</ul>
+			</div>
+			<!-- /advanced login -->
+
+		</div>
+		<!-- /main content -->
+
+	</div>
+	<!-- /page content -->
+
+
+	<!-- Footer -->
+	<div class="footer text-white">
+		&copy; 2017. <a href="#" class="text-white">Jobery</a> by <a href="http://maxwareapps.com" class="text-white" target="_blank">MaxWare Apps</a>
+	</div>
+	<!-- /footer -->
+
+</div>
+<!-- /page container -->
+
+</body>
+</html>
